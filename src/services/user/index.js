@@ -7,6 +7,7 @@ import bcrypt from "bcrypt"
 async function login(email, password){
    
     const user = await userRepository.getUserEmail(email)
+    console.log(user.rows[0])
     if(!user.rows[0]) throw invalidEmailPasswordError()
    
     const passwordUser = bcrypt.compareSync(password, user.rows[0].password)
@@ -14,8 +15,14 @@ async function login(email, password){
 
     const token = uuid()
     const result = await userRepository.postSession(user.rows[0].id, token)
-    console.log(result)
-    return result
+    
+    return {
+        id:user.rows[0].id,
+        admin:user.rows[0].admin,
+        professor: user.rows[0].professor,
+        name: user.rows[0].name,
+        token: result.token
+    }
 }
 
 async function validateEmail(email){

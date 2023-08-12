@@ -17,7 +17,6 @@ async function getNameUser(userId){
 async function student(userId) {
 
     const client = await pool.connect()
-    const name = await getNameUser(userId)
 
     try {
         const query = `SELECT 'fe' AS aula, f."userId", p.name AS professor_name, f."createdAt"
@@ -47,10 +46,9 @@ async function student(userId) {
             createdAt: item.createdAt
         }))
 
-        const result = {name,
-                        classes}
+        const result = {classes}
 
-        console.log(result)
+        return(result)
         
     } catch (error) {
         throw error;

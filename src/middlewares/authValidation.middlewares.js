@@ -5,6 +5,7 @@ import userRepository from "../repositories/user/index.js";
 export async function authValidation (req,res, next) {
 
     const authHeader = req.header('Authorization');
+
     if(!authHeader) return generateUnauthorizedResponse(res)
 
     const token = authHeader.split(' ')[1];

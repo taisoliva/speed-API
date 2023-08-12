@@ -5,7 +5,9 @@ async function getUserEmail(email) {
     const client = await pool.connect()
 
     try {
-        const data = client.query(`SELECT * FROM "users" WHERE email=$1`, [email])
+        const data = client.query(`SELECT users.*, personal_data.name FROM "users"
+                                   JOIN  personal_data ON personal_data."userId" = users.id
+                                   WHERE email=$1`, [email])
         return data
     } catch (error) {
         throw notFoundError()
